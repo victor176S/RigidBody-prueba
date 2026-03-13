@@ -35,12 +35,6 @@ public class Animaciones : MonoBehaviour
             animator.SetTrigger("Andar");
         }
 
-        if(rb.linearVelocity.x == 0 && rb.linearVelocity.z == 0 && rb.linearVelocity.y == 0)
-        {
-            animator.SetTrigger("Parar");
-        }
-
-
         animator.SetBool("Atras", rb.linearVelocity.z < 0);
         animator.SetBool("Delante", rb.linearVelocity.z > 0);
         animator.SetBool("Derecha", rb.linearVelocity.x > 0);

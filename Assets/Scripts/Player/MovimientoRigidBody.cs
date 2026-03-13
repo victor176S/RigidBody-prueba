@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MovimientoRigidBody : MonoBehaviour
@@ -23,8 +24,6 @@ public class MovimientoRigidBody : MonoBehaviour
 
     public bool isRunning = false;
 
-    
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,12 +35,13 @@ public class MovimientoRigidBody : MonoBehaviour
     void Update()
     {
         Controles();
-
-        
     }
 
     void FixedUpdate()
     {
+
+        ControlesFixedUpdate();
+
             if (maintainA)
             {
                 dirX += -1;
@@ -93,11 +93,11 @@ public class MovimientoRigidBody : MonoBehaviour
 
         rb.linearVelocity = newVelocity;
 
-        if (pressSpace)
+        if (maintainSpace && isGrounded)
         {
             Debug.Log("Press space");
 
-            rb.AddForce(40 * 9.8f * Vector3.up);
+            rb.AddForce(20 * 9.8f * Vector3.up);
         }
 
         Debug.Log($"{dirX}, {dirZ}");
@@ -114,18 +114,16 @@ public class MovimientoRigidBody : MonoBehaviour
 
     void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Suelo"))
-        {
-            isGrounded = true;
-        }
+        
+        isGrounded = true;
+        
     }
 
     void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Suelo"))
-        {
-            isGrounded = false;
-        }
+       
+        isGrounded = false;
+        
     }
 
 
@@ -201,22 +199,7 @@ public class MovimientoRigidBody : MonoBehaviour
             
         }
 
-        //correr
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            maintainShift = true;
-        }
-
-        else
-        {
-            maintainShift = false;
-        }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-           
-        }
+        //salto
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -240,7 +223,33 @@ public class MovimientoRigidBody : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            
+        }
+
+        //correr
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            maintainShift = true;
+        }
+
+        else
+        {
+            maintainShift = false;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
            
         }
     }
+
+    private void ControlesFixedUpdate()
+    {
+        
+    }
+
+    
 }
+
+//Collider[] hits = Physics.OverlapSphere(desdeDondeSale, Radio) -> es un Raycast esférico
